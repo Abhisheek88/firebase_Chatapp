@@ -99,7 +99,7 @@ const Chat = () => {
         <div className="user">
           <img src="./avatar.png" alt="" />
           <div className="texts">
-            <span>Abhishek</span>
+            <span>{user?.username}</span>
             <p>Lorem ipsum dolor sit.</p>
           </div>
         </div>
@@ -111,7 +111,7 @@ const Chat = () => {
       </div>
       <div className="center">
         { chat?.messages?.map(message=>(
-          <div className="message own" key={message?.createAt}>
+          <div className={message.senderId === currentUser?.id ?"message own" :"message"} key={message?.createAt}>
           <div className="texts">
             {/* <img src="https://images.pexels.com/photos/158028/bellingrath-gardens-alabama-landscape-scenic-158028.jpeg" alt="" /> */}
             <p>
@@ -135,6 +135,7 @@ const Chat = () => {
           placeholder="Type a Message..."
           value={text}
           onChange={(e) => setText(e.target.value)}
+           disabled={isCurrentUserBlocked || isReceiverBlocked}
         />
         <div className="emoji">
           <img
@@ -146,7 +147,13 @@ const Chat = () => {
             <EmojiPicker open={open} onEmojiClick={handleEmoji} />
           </div>
         </div>
-        <button className="sendButton" onClick={handleSend}>Send</button>
+        <button
+          className="sendButton"
+          onClick={handleSend}
+          disabled={isCurrentUserBlocked || isReceiverBlocked}
+        >
+          Send
+        </button>
       </div>
     </div>
   );
